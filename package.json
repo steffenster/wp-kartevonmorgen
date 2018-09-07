@@ -1,0 +1,27 @@
+{
+  "name": "wp-kvm",
+  "version": "1.0.0",
+  "description": "build javascript and css",
+  "main": "webpack.config.js",
+  "scripts": {
+    "dev": "webpack --mode=development --devtool sourcemap --watch",
+    "build": "webpack --mode=production --devtool sourcemap"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^8.0.2",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "image-webpack-loader": "^4.2.0",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.9.0",
+    "postcss-loader": "^2.1.5",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^2.0.15"
+  },
+  "author": "Steffen Peschel"
+}

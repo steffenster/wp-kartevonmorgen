@@ -1,0 +1,302 @@
+/////////////
+// transition
+
+@mixin transition($transition...) {
+  -moz-transition:    $transition;
+  -o-transition:      $transition;
+  -webkit-transition: $transition;
+  transition:         $transition;
+}
+@mixin transition-property($property...) {
+  -moz-transition-property:    $property;
+  -o-transition-property:      $property;
+  -webkit-transition-property: $property;
+  transition-property:         $property;
+}
+@mixin transition-duration($duration...) {
+  -moz-transition-property:    $duration;
+  -o-transition-property:      $duration;
+  -webkit-transition-property: $duration;
+  transition-property:         $duration;
+}
+@mixin transition-timing-function($timing...) {
+  -moz-transition-timing-function:    $timing;
+  -o-transition-timing-function:      $timing;
+  -webkit-transition-timing-function: $timing;
+  transition-timing-function:         $timing;
+}
+@mixin transition-delay($delay...) {
+  -moz-transition-delay:    $delay;
+  -o-transition-delay:      $delay;
+  -webkit-transition-delay: $delay;
+  transition-delay:         $delay;
+}
+
+////////////////////
+// generic transform
+@mixin transform($transforms) {
+  -moz-transform:    $transforms;
+  -o-transform:      $transforms;
+  -ms-transform:     $transforms;
+  -webkit-transform: $transforms;
+  transform:         $transforms;
+}
+// rotate
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+@mixin rotateX ($deg) {
+  @include transform(rotateX(#{$deg}deg));
+}
+@mixin rotateY ($deg) {
+  @include transform(rotateY(#{$deg}deg));
+}
+@mixin rotate_trigger ($y, $deg) {
+  @include transform(translateY(#{$y}) rotate(#{$deg}));
+}
+
+// scale
+@mixin scale($scale) {
+	 @include transform(scale($scale));
+}
+// translate
+@mixin translate ($x, $y) {
+   @include transform(translate($x, $y));
+}
+@mixin translateX ($x) {
+   @include transform(translateX($x));
+}
+@mixin translateY ($y) {
+   @include transform(translateY($y));
+}
+@mixin translateZ ($z) {
+   @include transform(translateZ($z));
+}
+// transform for the marker
+@mixin transformMarker ($z, $deg) {
+  @include transform(translateZ(#{$z}) rotateX(#{$deg}));
+}
+// skew
+@mixin skew ($x, $y) {
+   @include transform(skew(#{$x}deg, #{$y}deg));
+}
+//transform origin
+@mixin transform-origin ($origin) {
+      moz-transform-origin: $origin;
+	     -o-transform-origin: $origin;
+	    -ms-transform-origin: $origin;
+	-webkit-transform-origin: $origin;
+          transform-origin: $origin;
+}
+
+//////////////////////
+// backface_visibility
+@mixin backface_visibility ( $value ) {
+  -webkit-backface-visibility: $value;
+  backface-visibility:         $value;
+}
+
+// perspective
+@mixin perspective($val) {
+  -webkit-perspective: $val;
+  -moz-perspective:    $val;
+  perspective:         $val;
+}
+
+// flexbox
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex($values) {
+  -moz-box-flex:        $values;
+  -webkit-flex:         $values;
+  -ms-flex:             $values;
+  flex:                 $values;
+}
+
+@mixin flex-direction($val) {
+  -webkit-flex-direction: $val;
+  -moz-flex-direction:    $val;
+  -ms-flex-direction:     $val;
+  flex-direction:         $val;
+}
+
+@mixin flex-wrap($wrap) {
+  -webkit-flex-wrap: $wrap;
+  -moz-flex-wrap:    $wrap;
+  -ms-flex-wrap:     $wrap;
+  flex-wrap:         $wrap;
+}
+
+@mixin flex-grow($value) {
+  -webkit-flex-grow: $value;
+  -moz-flex-grow:    $value;
+  -ms-flex-grow:     $value;
+  flex-grow:         $value;
+}
+
+@mixin align-items($align) {
+  -webkit-align-items: $align;
+  -moz-align-items:    $align;
+  -ms-align-items:     $align;
+  align-items:         $align;
+}
+
+@mixin align-self($align) {
+  -webkit-align-self: $align;
+  -moz-align-self:    $align;
+  -ms-align-self:     $align;
+  align-self:         $align;
+}
+
+@mixin align-content($align) {
+  -webkit-align-content: $align;
+  -moz-align-content:    $align;
+  -ms-align-content:     $align;
+  align-content:         $align;
+}
+
+@mixin justify-content($val) {
+  -webkit-justify-content: $val;
+  -moz-justify-content:    $val;
+  -ms-justify-content:     $val;
+  justify-content:         $val;
+}
+
+// korrekte width für für flex und flex-wrap:wrap
+@mixin flexItemWith($width) {
+  @if $width == 100 {
+    width: calc(100vw - (100vw - 100%));
+  }
+  @if $width == 50 {
+    width: calc(50vw - ((100vw - 100%)/2));
+  }
+  @if $width == 33 {
+    width: calc(33.333vw - ((100vw - 100%)/3));
+  }
+  @if $width == 25 {
+    width: calc(25vw - ((100vw - 100%)/4));
+  }
+  @if $width == 20 {
+    width: calc(20vw - ((100vw - 100%)/5));
+  }
+}
+
+// Vendor prefixing for shorthand properties
+// exemple: @include vendor-prefixes(border-radius, 50%);
+@mixin vendor-prefixes($property, $value) {
+    -webkit-#{$property}: $value;
+    -moz-#{$property}: $value;
+    -ms-#{$property}: $value;
+    -o-#{$property}: $value;
+    #{$property}: $value;
+}
+// box-shadow
+@mixin box-shadow($top, $left, $blur, $spread, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $spread $color;
+    -moz-box-shadow:inset $top $left $blur $spread $color;
+    box-shadow:inset $top $left $blur $spread $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $spread $color;
+    -moz-box-shadow: $top $left $blur $spread $color;
+    box-shadow: $top $left $blur $spread $color;
+  }
+}
+
+// =============================================================================
+// String Replace
+// =============================================================================
+
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
+// =============================================================================
+// Font Face
+// =============================================================================
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
+  $src: null;
+
+  $extmods: (
+    eot: "?",
+    svg: "#" + str-replace($name, " ", "_")
+  );
+
+  $formats: (
+    otf: "opentype",
+    ttf: "truetype"
+  );
+
+  @each $ext in $exts {
+    $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+    $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+    $src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+  }
+
+  @font-face {
+    font-family: quote($name);
+    font-style: $style;
+    font-weight: $weight;
+    src: $src;
+  }
+}
+
+// Box Sizing
+
+@mixin box-sizing($box-model) {
+  -webkit-box-sizing: $box-model; // Safari <= 5
+     -moz-box-sizing: $box-model; // Firefox <= 19
+          box-sizing: $box-model;
+}
+
+// Border Radius
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+  background-clip: padding-box;  // stops bg color from leaking outside the border:
+}
+
+// Single side border-radius
+
+@mixin border-top-radius($radius) {
+  -webkit-border-top-right-radius: $radius;
+  border-top-right-radius: $radius;
+  -webkit-border-top-left-radius: $radius;
+  border-top-left-radius: $radius;
+  background-clip: padding-box;
+}
+@mixin border-right-radius($radius) {
+  -webkit-border-bottom-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+  -webkit-border-top-right-radius: $radius;
+  border-top-right-radius: $radius;
+  background-clip: padding-box;
+}
+@mixin border-bottom-radius($radius) {
+  -webkit-border-bottom-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+  -webkit-border-bottom-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+  background-clip: padding-box;
+}
+@mixin border-left-radius($radius) {
+  -webkit-border-bottom-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+  -webkit-border-top-left-radius: $radius;
+  border-top-left-radius: $radius;
+  background-clip: padding-box;
+}
