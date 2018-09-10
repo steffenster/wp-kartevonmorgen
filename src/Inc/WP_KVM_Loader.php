@@ -4,7 +4,7 @@
  * @Author: Steffen Peschel
  * @Date:   2018-09-03 01:29:30
  * @Last Modified by:   Steffen Peschel
- * @Last Modified time: 2018-09-07 22:48:25
+ * @Last Modified time: 2018-09-10 15:50:24
  */
 
 namespace WP_KVM\Inc;
@@ -36,12 +36,17 @@ class WP_KVM_Loader {
 	 */
 	protected $filters;
 	/**
-	 * The array of shortcodes regestered with WordPress.
+	 * The array of shortcodes registered with WordPress.
 	 *
 	 * @since    1.0.2
 	 * @var      array 	  $shortcodes    The shortcodes registered with WordPress initialized when the plugin loads. 
 	 */
 	protected $shortcodes;
+	/**
+	 * The array of meta boxes registered with WordPress.
+	 * @var [type]
+	 */
+	protected $meta_boxes;
 	/**
 	 * Initialize the collections used to maintain the actions and filters.
 	 *
@@ -51,6 +56,7 @@ class WP_KVM_Loader {
 		$this->actions = array();
 		$this->filters = array();
 		$this->shortcodes = array();
+		$this->meta_boxes = array();
 	}
 	/**
 	 * Add a new action to the collection to be registered with WordPress.
@@ -113,6 +119,34 @@ class WP_KVM_Loader {
 		return $hooks;
 	}
 	/**
+	 * A untility function that is used to register the meta boxes into a single collection
+	 * 
+	 * @param string 	$id 					Meta box ID
+	 * @param string 	$title      			Title of the meta box
+	 * @param object 	$component 				A reference of the instance of the object on which the meta box is defined.
+	 * @param string 	$callback   			The name of the function definition on the $component.
+	 * @param string|array|WP_Screen $screen 	[description]
+	 * @param string 	$context       			
+	 * @param string 	$priority      			
+	 * @param array 	$callback_args 			
+	 */
+	private function add_meta_box( $id, $title, $component, $callback, $screen = null, $context = 'advanced', $priority = 'default', $callback_args = null ) {
+		$meta_boxes = $this->meta_boxes;
+		$meta_boxes[] = array(
+			'id' 			=> $id,
+			'title' 		=> $title,
+			'component'		=> $component,
+			'callback'		=> $callback,
+			'screen'		=> $screen,
+			'context'		=> $context,
+			'priority'		=> $priority,
+			'callback_args'	=> $callback_args,
+		);
+
+		$this->meta_boxes = $meta_boxes;
+	}
+
+	/**
 	 * Register the filters and actions with WordPress.
 	 *
 	 * @since    1.0.0
@@ -123,6 +157,9 @@ class WP_KVM_Loader {
 		}
 		foreach ( $this->actions as $hook ) {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
+		}
+		foreach ( $this->meta_boxes as $box) {
+			add_meta_box( $box['id'], $box['title'], array( $box['component'], $box['callback']), $box['screen'], $box['context'], $box['priority'], $box['callback_args'] );
 		}
 		foreach ( $this->shortcodes as $shortcode ) {
 			add_shortcode( $shortcode['hook'], array( $shortcode['component'], $shortcode['callback'] ) );
