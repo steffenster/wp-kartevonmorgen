@@ -4,7 +4,7 @@
  * @Author: Steffen Peschel
  * @Date:   2018-09-03 01:14:11
  * @Last Modified by:   Steffen Peschel
- * @Last Modified time: 2018-09-04 01:34:43
+ * @Last Modified time: 2018-09-10 16:36:25
  */
 
 namespace WP_KVM\Inc;
@@ -12,6 +12,7 @@ namespace WP_KVM\Inc;
 use WP_KVM\Inc\WP_KVM_Loader;
 use WP_KVM\Inc\WP_KVM_i18n;
 use WP_KVM\Admin\WP_KVM_Admin;
+use WP_KVM\Admin\WP_KVM_Meta_Box;
 use WP_KVM\Front\WP_KVM_Public;
 
 /**
@@ -117,6 +118,10 @@ class WP_KVM {
 		$plugin_admin = new WP_KVM_Admin( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+		$wp_kvm_meta_box = new WP_KVM_Meta_Box();
+		$this->loader->add_action( 'add_meta_boxes', $wp_kvm_meta_box, 'add_meta_box' );
+    	$this->loader->add_action( 'save_post', $wp_kvm_meta_box, 'save_meta_box', 10, 2 );
 	}
 	/**
 	 * Register all of the hooks related to the public-facing functionality
