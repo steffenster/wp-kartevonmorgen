@@ -2,7 +2,54 @@
 * @Author: Steffen Peschel
 * @Date:   2018-09-03 02:42:45
 * @Last Modified by:   Steffen Peschel
-* @Last Modified time: 2018-09-04 13:34:17
+* @Last Modified time: 2018-09-10 18:22:46
 */
 
 @import "./mixins";
+
+$bordercolor: #ccc;
+
+.tabsbox {
+
+	/* Style the tab */
+	.tabsheader {
+		@include flexbox();
+		position: relative;
+		top: 1px;
+
+		/* Style the buttons inside the tab */
+		button {
+		    background-color: transparent;
+		    border: 1px solid transparent;
+		    border-bottom: none;
+		    outline: none;
+		    cursor: pointer;
+		    padding: 14px 16px;
+		    font-size: 17px;
+
+		    &:hover {
+			    text-decoration: underline;
+			}
+
+			&.active {
+			    background-color: #fff;
+			    border-color: $bordercolor;
+				cursor: default;
+
+				&:hover {
+					text-decoration: none;
+				}
+			}
+		}
+	}
+
+	.tabcontent {
+		display: none;
+		padding: 6px 12px;
+    	border: 1px solid $bordercolor;
+
+		&.open {
+			display: block;
+		}
+	}
+}
